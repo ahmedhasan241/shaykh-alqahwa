@@ -7,7 +7,7 @@ export const useCheckout = () => {
   const fmt = (n: number) => Math.round(n).toLocaleString('ar-EG')
   const fmtKg = (n: number) => n.toFixed(3).replace(/\.?0+$/, '')
 
-  const buildMessage = (items: CartItem[], customer: Customer, total: number) => {
+  const buildMessage = (items: CartItem[], customer: Customer, total: number, shippingFee: number) => {
     const singles = items.filter(i => i.type === 'single')
     const blends = items.filter(i => i.type === 'blend')
     const now = new Date().toLocaleString('ar-EG', {
@@ -56,7 +56,9 @@ export const useCheckout = () => {
     }
 
     m += '━━━━━━━━━━━━━━━━━━━━\n'
-    m += `💵 *الإجمالي: ${fmt(total)} ج.م*\n`
+    m += `🛒 *إجمالي المنتجات: ${fmt(total)} ج.م*\n`
+    m += `🚚 *رسوم الشحن والتوصيل: ${fmt(shippingFee)} ج.م*\n`
+    m += `✅ *الإجمالي الكلي (شامل الشحن): ${fmt(total + shippingFee)} ج.م*\n`
     m += '━━━━━━━━━━━━━━━━━━━━\n\n'
 
     if (customer.notes) m += `📝 *ملاحظات:* ${customer.notes}\n\n`
@@ -66,9 +68,9 @@ export const useCheckout = () => {
     return m
   }
 
-  const send = (items: CartItem[], customer: Customer, total: number) => {
+  const send = (items: CartItem[], customer: Customer, total: number, shippingFee: number) => {
     if (items.length === 0) return
-    const msg = buildMessage(items, customer, total)
+    const msg = buildMessage(items, customer, total, shippingFee)
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`
     if (import.meta.client) {
       window.open(url, '_blank', 'noopener,noreferrer')

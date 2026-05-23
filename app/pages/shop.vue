@@ -93,6 +93,7 @@ const quickAdd = (p: Product) => {
         :color="selectedCategory === cat ? 'primary' : 'gray'"
         size="sm"
         class="flex-shrink-0 rounded-full font-semibold whitespace-nowrap"
+        :class="selectedCategory === cat ? 'coffee-action' : ''"
         @click="selectedCategory = cat"
       >
         {{ cat }}

@@ -18,7 +18,7 @@ watch(() => cart.isOpen, (v) => {
 const handleCheckout = () => {
   if (cart.items.length === 0) return
   checkout.send(cart.items, cart.customer, cart.total)
-  toast.add({ title: 'تم فتح واتساب لإتمام الطلب 📲', icon: 'i-heroicons-check-circle', color: 'green' })
+  toast.add({ title: 'تم فتح واتساب لإتمام الطلب 📲', icon: 'i-heroicons-check-circle', color: 'primary' })
 }
 
 const goToCart = () => {
@@ -56,22 +56,22 @@ const goToCart = () => {
     >
       <div
         v-if="cart.isOpen"
-        class="fixed z-50 bottom-0 inset-x-0 sm:inset-x-auto sm:inset-y-0 sm:right-0 sm:w-[420px] flex flex-col bg-white dark:bg-gray-900 rounded-t-[28px] sm:rounded-none shadow-2xl max-h-[92dvh] sm:max-h-screen"
+        class="fixed z-50 bottom-0 inset-x-0 sm:inset-x-auto sm:inset-y-0 sm:right-0 sm:w-[420px] flex flex-col bg-cream dark:bg-ink-900 rounded-t-[28px] sm:rounded-none shadow-2xl max-h-[92dvh] sm:max-h-screen"
       >
         <!-- Mobile drag handle -->
         <div class="sm:hidden flex justify-center pt-3 pb-1 flex-shrink-0">
-          <div class="w-10 h-1 rounded-full bg-gray-300 dark:bg-gray-600" />
+          <div class="w-10 h-1 rounded-full bg-ink-300/50 dark:bg-cream-100/20" />
         </div>
 
         <!-- Header -->
-        <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800 flex-shrink-0">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-ink-100 dark:border-ink-700 flex-shrink-0">
           <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-primary-50 dark:bg-primary-900/30 flex items-center justify-center">
-              <UIcon name="i-heroicons-shopping-bag" class="w-5 h-5 text-primary-500" />
+            <div class="coffee-action w-9 h-9 rounded-xl flex items-center justify-center">
+              <UIcon name="i-heroicons-shopping-bag" class="w-5 h-5" />
             </div>
             <div>
               <h2 class="font-bold text-lg leading-tight">سلة التسوق</h2>
-              <p class="text-xs text-gray-400">{{ cart.count }} {{ cart.count === 1 ? 'منتج' : 'منتجات' }}</p>
+              <p class="text-xs text-ink-400 dark:text-cream/55">{{ cart.count }} {{ cart.count === 1 ? 'منتج' : 'منتجات' }}</p>
             </div>
           </div>
           <UButton
@@ -86,16 +86,16 @@ const goToCart = () => {
 
         <!-- Empty state -->
         <div v-if="cart.items.length === 0" class="flex-1 flex flex-col items-center justify-center p-8 text-center">
-          <div class="w-28 h-28 rounded-full bg-gray-50 dark:bg-gray-800 flex items-center justify-center mb-5">
-            <UIcon name="i-heroicons-shopping-bag" class="w-14 h-14 text-gray-200 dark:text-gray-700" />
+          <div class="w-28 h-28 rounded-full bg-ink-50 dark:bg-ink-800 flex items-center justify-center mb-5">
+            <UIcon name="i-heroicons-shopping-bag" class="w-14 h-14 text-ink-200 dark:text-ink-600" />
           </div>
           <h3 class="font-bold text-xl mb-2">السلة فارغة</h3>
-          <p class="text-sm text-gray-400 mb-8 leading-relaxed">لم تضف أي منتجات بعد.<br>اكتشف أنواع القهوة الفاخرة لدينا!</p>
+          <p class="text-sm text-ink-400 dark:text-cream/55 mb-8 leading-relaxed">لم تضف أي منتجات بعد.<br>اكتشف أنواع القهوة الفاخرة لدينا!</p>
           <UButton
             label="تصفّح المتجر"
-            color="primary"
+            color="gray"
             size="lg"
-            class="rounded-2xl font-bold px-8"
+            class="coffee-action rounded-2xl font-bold px-8"
             @click="cart.close(); $router.push('/shop')"
           />
         </div>
@@ -113,7 +113,7 @@ const goToCart = () => {
             <div
               v-for="item in cart.items"
               :key="item.id"
-              class="flex gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-2xl"
+              class="flex gap-3 p-3 bg-white dark:bg-ink-800 rounded-2xl border border-ink-100 dark:border-ink-700"
             >
               <!-- Thumbnail -->
               <div
@@ -134,10 +134,10 @@ const goToCart = () => {
                   <p class="font-semibold text-sm leading-snug line-clamp-2">{{ item.name }}</p>
                   <UButton
                     icon="i-heroicons-x-mark"
-                    color="red"
+                    color="gray"
                     variant="ghost"
                     size="2xs"
-                    class="rounded-full flex-shrink-0 -mt-0.5"
+                    class="rounded-full flex-shrink-0 -mt-0.5 text-amber-600 hover:bg-amber-50 dark:text-amber-300 dark:hover:bg-amber-400/10"
                     @click="cart.remove(item.id)"
                   />
                 </div>
@@ -145,7 +145,7 @@ const goToCart = () => {
                 <!-- Blend components -->
                 <div
                   v-if="item.type === 'blend' && item.components"
-                  class="mt-1 text-[10px] text-gray-400 space-y-0.5"
+                  class="mt-1 text-[10px] text-ink-400 dark:text-cream/55 space-y-0.5"
                 >
                   <span v-for="(c, i) in item.components" :key="i" class="inline-block ml-2">
                     {{ c.name }} {{ c.weight }}كجم
@@ -154,7 +154,7 @@ const goToCart = () => {
 
                 <div class="mt-2 flex items-center justify-between">
                   <!-- Weight stepper (single items only) -->
-                  <div v-if="item.type === 'single'" class="flex items-center gap-1 bg-white dark:bg-gray-900 rounded-xl p-0.5 border border-gray-200 dark:border-gray-700">
+                  <div v-if="item.type === 'single'" class="flex items-center gap-1 bg-ink-50 dark:bg-ink-900 rounded-xl p-0.5 border border-ink-200 dark:border-ink-700">
                     <UButton
                       icon="i-heroicons-minus"
                       color="gray"
@@ -173,9 +173,9 @@ const goToCart = () => {
                       @click="cart.adjustWeight(item.id, 0.125)"
                     />
                   </div>
-                  <div v-else class="text-[10px] text-gray-400">{{ item.weight.toFixed(3) }} كجم</div>
+                  <div v-else class="text-[10px] text-ink-400 dark:text-cream/55">{{ item.weight.toFixed(3) }} كجم</div>
 
-                  <span class="font-bold text-base text-primary-500">{{ formatPrice(item.price) }} ج</span>
+                  <span class="font-bold text-base text-amber-600 dark:text-amber-300">{{ formatPrice(item.price) }} ج</span>
                 </div>
               </div>
             </div>
@@ -183,7 +183,7 @@ const goToCart = () => {
         </div>
 
         <!-- Footer -->
-        <div v-if="cart.items.length > 0" class="flex-shrink-0 border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 px-4 pt-4 pb-safe-bottom space-y-3" style="padding-bottom: max(1rem, env(safe-area-inset-bottom))">
+        <div v-if="cart.items.length > 0" class="flex-shrink-0 border-t border-ink-100 dark:border-ink-700 bg-cream dark:bg-ink-900 px-4 pt-4 pb-safe-bottom space-y-3" style="padding-bottom: max(1rem, env(safe-area-inset-bottom))">
           <!-- Customer fields -->
           <div class="grid grid-cols-2 gap-2">
             <UInput
@@ -212,10 +212,10 @@ const goToCart = () => {
 
           <!-- Total row -->
           <div class="flex items-center justify-between py-1">
-            <span class="text-gray-500 text-sm">الإجمالي</span>
+            <span class="text-ink-500 dark:text-cream/60 text-sm">الإجمالي</span>
             <div class="text-right">
-              <div class="font-bold text-2xl text-primary-500 leading-none">{{ formatPrice(cart.total) }} ج</div>
-              <div class="text-[10px] text-gray-400">{{ cart.totalWeight.toFixed(3) }} كجم إجمالي</div>
+              <div class="font-bold text-2xl text-amber-600 dark:text-amber-300 leading-none">{{ formatPrice(cart.total) }} ج</div>
+              <div class="text-[10px] text-ink-400 dark:text-cream/55">{{ cart.totalWeight.toFixed(3) }} كجم إجمالي</div>
             </div>
           </div>
 
@@ -223,7 +223,7 @@ const goToCart = () => {
           <UButton
             size="lg"
             block
-            class="rounded-2xl font-bold text-base bg-green-500 hover:bg-green-600 text-white border-0"
+            class="coffee-action rounded-2xl font-bold text-base border-0"
             @click="handleCheckout"
           >
             <template #leading>
@@ -241,16 +241,16 @@ const goToCart = () => {
               variant="soft"
               color="gray"
               size="sm"
-              class="flex-1 rounded-xl"
+              class="flex-1 rounded-xl bg-white dark:bg-cream text-ink-500 hover:bg-ink-100 dark:hover:bg-cream-200"
               icon="i-heroicons-shopping-cart"
               @click="goToCart"
             />
             <UButton
               label="إفراغ"
               variant="soft"
-              color="red"
+              color="gray"
               size="sm"
-              class="rounded-xl"
+              class="rounded-xl bg-amber-950 text-amber-300 hover:bg-amber-900"
               icon="i-heroicons-trash"
               @click="cart.clear()"
             />

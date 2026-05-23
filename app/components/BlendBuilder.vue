@@ -127,7 +127,7 @@ const addToCart = () => {
                     @click="comp.weight = w.value"
                     class="px-3 py-1 rounded-lg text-xs font-bold transition"
                     :class="comp.weight === w.value
-                      ? 'bg-ink-700 dark:bg-amber-400 text-cream dark:text-ink-900'
+                      ? 'coffee-action'
                       : 'bg-ink-100 dark:bg-ink-800 hover:bg-ink-200'"
                   >
                     {{ w.label }} كجم
@@ -180,7 +180,7 @@ const addToCart = () => {
         <button
           @click="addToCart"
           :disabled="components.length === 0"
-          class="w-full py-3.5 bg-amber-400 hover:bg-amber-300 text-ink-900 font-bold rounded-xl disabled:opacity-50 transition"
+          class="coffee-action w-full py-3.5 font-bold rounded-xl transition"
         >
           إضافة الخلطة إلى السلة
         </button>

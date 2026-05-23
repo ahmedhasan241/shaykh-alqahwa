@@ -11,11 +11,10 @@ const navLinks = [
   { to: '/',       label: 'الرئيسية' },
   { to: '/shop',   label: 'المتجر' },
   { to: '/blend',  label: 'خلطتك' },
-  { to: '/about',  label: 'عن المحل' },
 ]
 
 const badgePulse = ref(false)
-watch(() => cart.count, (n, o) => {
+watch(() => cart.count, (n: number, o: number) => {
   if (n > o) {
     badgePulse.value = false
     nextTick(() => { badgePulse.value = true })
@@ -39,18 +38,17 @@ watch(() => cart.count, (n, o) => {
 
         <!-- Desktop nav -->
         <nav class="hidden lg:flex items-center gap-1">
-          <UButton
+          <NuxtLink
             v-for="link in navLinks"
             :key="link.to"
             :to="link.to"
-            :variant="route.path === link.to ? 'solid' : 'ghost'"
-            :color="route.path === link.to ? 'gray' : 'gray'"
-            size="sm"
-            class="rounded-full font-semibold"
-            :class="route.path === link.to ? 'bg-ink-700 dark:bg-primary-400 text-cream dark:text-ink-900' : ''"
+            class="rounded-full px-4 py-2 text-sm font-semibold transition"
+            :class="route.path === link.to
+              ? 'coffee-action'
+              : 'text-ink-600 hover:bg-ink-100 dark:text-cream/90 dark:hover:bg-white/10'"
           >
             {{ link.label }}
-          </UButton>
+          </NuxtLink>
         </nav>
 
         <!-- Actions -->
@@ -66,16 +64,15 @@ watch(() => cart.count, (n, o) => {
             @click="ui.toggleTheme()"
           />
 
-          <!-- Cart button -->
+          <!-- Cart button — raw button for guaranteed icon centering -->
           <div class="relative">
-            <UButton
-              icon="i-heroicons-shopping-bag"
-              color="gray"
-              size="sm"
-              class="rounded-full w-10 h-10 bg-ink-700 dark:bg-primary-400 text-cream dark:text-ink-900 hover:bg-ink-800 dark:hover:bg-primary-300 shadow-lift"
+            <button
+              class="coffee-action w-10 h-10 rounded-full flex items-center justify-center transition"
               aria-label="السلة"
               @click="cart.open()"
-            />
+            >
+              <UIcon name="i-heroicons-shopping-bag" class="w-5 h-5" />
+            </button>
             <UBadge
               v-if="cart.count > 0"
               :label="String(cart.count)"

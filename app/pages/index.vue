@@ -45,11 +45,6 @@ const quickAdd = (p: Product) => {
       <div class="relative px-6 sm:px-12 py-12 sm:py-20 text-cream">
         <div class="flex flex-col sm:flex-row items-center gap-8">
           <div class="flex-1 text-center sm:text-right">
-            <div class="flex items-center justify-center sm:justify-start gap-2 mb-3">
-              <span class="ornament text-amber-400"></span>
-              <span class="text-amber-300 text-sm tracking-[0.25em] font-semibold">منذ ١٩٧٢</span>
-              <span class="ornament text-amber-400"></span>
-            </div>
             <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] mb-4">
               مذاق <span class="gold-shimmer">كما تهوى</span>
             </h1>
@@ -57,7 +52,7 @@ const quickAdd = (p: Product) => {
               نخبة من أجود حبوب القهوة المحمصة طازجاً، تُحضّر لك بشغف وحرفية الأجيال.
             </p>
             <div class="flex flex-wrap gap-3 mt-8 justify-center sm:justify-start">
-              <NuxtLink to="/shop" class="px-7 py-3.5 bg-amber-400 hover:bg-amber-300 text-ink-900 font-bold rounded-full shadow-amber-glow transition">
+              <NuxtLink to="/shop" class="coffee-action px-7 py-3.5 font-bold rounded-full transition">
                 اكتشف القهوة
               </NuxtLink>
               <NuxtLink to="/blend" class="px-7 py-3.5 bg-white/10 hover:bg-white/20 blur-backdrop text-cream font-semibold rounded-full border border-white/20 transition">
@@ -80,7 +75,7 @@ const quickAdd = (p: Product) => {
         @click="selectedCategory = cat"
         class="flex-shrink-0 px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition"
         :class="selectedCategory === cat
-          ? 'bg-ink-700 dark:bg-amber-400 text-cream dark:text-ink-900 shadow-soft'
+          ? 'coffee-action'
           : 'bg-ink-100 dark:bg-ink-800 hover:bg-ink-200 dark:hover:bg-ink-700'"
       >
         {{ cat }}

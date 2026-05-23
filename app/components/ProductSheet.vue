@@ -163,7 +163,7 @@ const addToCart = () => {
                 :color="selectedWeight === w.value ? 'gray' : 'gray'"
                 size="sm"
                 class="flex-col h-auto py-3 rounded-2xl leading-tight"
-                :class="selectedWeight === w.value ? 'bg-ink-700 dark:bg-primary-400 text-cream dark:text-ink-900 border-transparent' : ''"
+                :class="selectedWeight === w.value ? 'coffee-action border-transparent' : ''"
                 @click="selectedWeight = w.value"
               >
                 <div>{{ w.label }}</div>
@@ -205,7 +205,7 @@ const addToCart = () => {
             color="gray"
             size="lg"
             block
-            class="mt-5 rounded-2xl bg-ink-700 hover:bg-ink-800 dark:bg-primary-400 dark:hover:bg-primary-300 text-cream dark:text-ink-900 shadow-lift font-bold"
+            class="coffee-action mt-5 rounded-2xl font-bold"
             @click="addToCart"
           />
         </div>

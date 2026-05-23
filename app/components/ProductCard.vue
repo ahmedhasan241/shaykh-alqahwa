@@ -43,7 +43,7 @@ const { formatPrice } = useFormat()
         </div>
         <button
           @click.stop="emit('quickAdd', product)"
-          class="w-9 h-9 bg-ink-700 dark:bg-amber-400 text-cream dark:text-ink-900 rounded-full flex items-center justify-center hover:scale-110 shadow-soft transition"
+          class="coffee-action w-9 h-9 rounded-full flex items-center justify-center hover:scale-110 transition"
           aria-label="إضافة سريعة"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">

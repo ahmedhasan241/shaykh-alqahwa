@@ -1,6 +1,8 @@
 // stores/cart.ts
 import { defineStore } from 'pinia'
 
+export const SHIPPING_FEE = 35
+
 export interface BlendComponent {
   productId: number
   name: string
@@ -40,6 +42,8 @@ export const useCartStore = defineStore('cart', {
     count: (s) => s.items.length,
     totalWeight: (s) => s.items.reduce((sum, i) => sum + i.weight, 0),
     total: (s) => s.items.reduce((sum, i) => sum + i.price, 0),
+    shippingFee: () => SHIPPING_FEE,
+    grandTotal: (s) => s.items.reduce((sum, i) => sum + i.price, 0) + SHIPPING_FEE,
   },
 
   actions: {
