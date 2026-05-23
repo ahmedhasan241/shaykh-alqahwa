@@ -92,13 +92,16 @@ function addToCart() {
       name: product.name,
       weight: componentWeightKg(c),
       pricePerKg: product.pricePerKg,
+      image: product.image,
+      gradient: product.gradient,
+      accent: product.accent,
     }
   })
 
   cart.add({
     type: 'blend',
     name: finalName.value,
-    gradient: 'linear-gradient(135deg, #E5A84C 30%, #5C4126 100%)',
+    gradient: 'linear-gradient(135deg, #A99768 30%, #514B3B 100%)',
     weight: totalWeight.value,
     price: totalPrice.value,
     components: comps,
@@ -112,20 +115,20 @@ function addToCart() {
 </script>
 
 <template>
-  <div class="animate-fade-in pt-4 pb-20 lg:pb-12">
+  <div class="blend-builder-page animate-fade-in pt-4 pb-20 lg:pb-12">
 
     <!-- ── Hero Banner ── -->
-    <div class="relative rounded-3xl overflow-hidden mb-6 bg-gradient-to-br from-ink-800 via-ink-700 to-ink-900 grain">
+    <div class="blend-hero-panel relative rounded-3xl overflow-hidden mb-6 border grain">
       <div class="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-amber-400/10 blur-3xl pointer-events-none" />
       <div class="absolute -bottom-10 -left-10 w-40 h-40 rounded-full bg-amber-600/10 blur-3xl pointer-events-none" />
 
-      <div class="relative px-5 py-7 sm:px-10 sm:py-10 text-white">
+      <div class="relative px-5 py-7 sm:px-10 sm:py-10 text-ink-700 dark:text-white">
         <UBadge label="✦ حصري" color="primary" variant="soft" class="mb-3 rounded-full px-3" />
         <h1 class="font-display text-2xl sm:text-4xl font-bold leading-tight mb-2">
           اصنع خلطتك<br>
           <span class="text-amber-400">الخاصة</span>
         </h1>
-        <p class="text-white/70 text-sm max-w-md leading-relaxed">
+        <p class="text-ink-500 dark:text-white/70 text-sm max-w-md leading-relaxed">
           امزج أنواع قهوتك المفضلة بالنسب التي تريدها وأضفها للسلة بلمسة واحدة.
         </p>
 
@@ -154,10 +157,10 @@ function addToCart() {
       <div v-if="step === 1" key="step1" class="space-y-4">
 
         <!-- Mobile summary strip -->
-        <div v-if="components.length > 0" class="xl:hidden flex items-center justify-between rounded-2xl bg-ink-900 dark:bg-ink-950 border border-ink-700 px-4 py-3">
-          <span class="text-xs text-slate-400 uppercase tracking-wider">الإجمالي</span>
+        <div v-if="components.length > 0" class="blend-surface xl:hidden flex items-center justify-between rounded-2xl border px-4 py-3">
+          <span class="text-xs text-cream/55 uppercase tracking-wider">الإجمالي</span>
           <div class="flex items-center gap-4">
-            <span class="text-sm text-slate-300">{{ totalWeight.toFixed(2) }} كجم</span>
+            <span class="text-sm text-cream/80">{{ totalWeight.toFixed(2) }} كجم</span>
             <span class="text-base font-bold text-amber-400">{{ formatPrice(totalPrice) }} ج</span>
           </div>
         </div>
@@ -168,23 +171,23 @@ function addToCart() {
           <div class="space-y-4 min-w-0">
 
             <!-- Status card -->
-            <div class="rounded-3xl border border-ink-700 dark:border-slate-800 bg-ink-900 dark:bg-slate-950 p-5">
+            <div class="blend-surface-strong rounded-3xl border p-5">
               <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <div class="text-xs uppercase tracking-widest text-amber-400 mb-1.5">ابدأ بخلطة جديدة</div>
                   <h2 class="font-display text-xl sm:text-2xl font-bold text-white">اختر نوعين أو أكثر</h2>
-                  <p class="mt-2 text-xs text-slate-400 max-w-md leading-relaxed">حدد كل نوع بالجرام أو بالسعر، وسيتم تحديث السعر والوزن مباشرةً.</p>
+                  <p class="mt-2 text-xs text-cream/60 max-w-md leading-relaxed">حدد كل نوع بالجرام أو بالسعر، وسيتم تحديث السعر والوزن مباشرةً.</p>
                 </div>
-                <div class="rounded-2xl border border-ink-700 dark:border-slate-800 bg-ink-800 dark:bg-slate-900 p-3 sm:p-4 text-right shrink-0">
-                  <div class="text-[10px] uppercase tracking-widest text-slate-500">الحالة الحالية</div>
+                <div class="blend-subsurface rounded-2xl border p-3 sm:p-4 text-right shrink-0">
+                  <div class="text-[10px] uppercase tracking-widest text-cream/45">الحالة الحالية</div>
                   <div class="mt-1.5 text-xl font-bold text-amber-400">{{ formatPrice(totalPrice) }} ج</div>
-                  <div class="text-xs text-slate-400">{{ totalWeight.toFixed(3) }} كجم</div>
+                  <div class="text-xs text-cream/60">{{ totalWeight.toFixed(3) }} كجم</div>
                 </div>
               </div>
             </div>
 
             <!-- Components card -->
-            <div class="rounded-3xl border border-ink-700 dark:border-slate-800 bg-ink-900 dark:bg-slate-950 p-4 sm:p-5">
+            <div class="blend-surface rounded-3xl border p-4 sm:p-5">
               <div class="flex items-center justify-between gap-3 mb-4">
                 <div>
                   <div class="text-xs uppercase tracking-widest text-amber-400">مكونات الخلطة</div>
@@ -205,7 +208,7 @@ function addToCart() {
                 <div
                   v-if="components.length === 0"
                   key="empty"
-                  class="rounded-2xl border border-dashed border-slate-700 bg-slate-900/50 p-8 text-center text-slate-400"
+                  class="blend-subsurface rounded-2xl border border-dashed p-8 text-center text-ink-500 dark:text-cream/60"
                 >
                   <div class="text-4xl mb-3">☕</div>
                   <div class="text-sm">أضف نوعين على الأقل لتكوين خلطتك</div>
@@ -215,11 +218,11 @@ function addToCart() {
                 <div
                   v-for="(comp, idx) in components"
                   :key="`comp-${idx}`"
-                  class="relative rounded-2xl border border-slate-800 bg-slate-900 p-4"
+                  class="blend-subsurface relative rounded-2xl border p-4 shadow-soft"
                 >
                   <!-- Remove -->
                   <button
-                    class="absolute top-3 left-3 w-7 h-7 rounded-full flex items-center justify-center text-slate-400 hover:bg-red-950/40 hover:text-red-400 transition"
+                    class="absolute top-3 left-3 w-7 h-7 rounded-full flex items-center justify-center text-cream/55 hover:bg-amber-950/60 hover:text-amber-300 transition"
                     @click="removeComponent(idx)"
                   >
                     <UIcon name="i-heroicons-x-mark" class="w-4 h-4" />
@@ -241,7 +244,7 @@ function addToCart() {
                         <select
                           :value="comp.productId"
                           @change="changeProduct(idx, $event)"
-                          class="w-full rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-semibold px-3 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400/40 focus:border-amber-400/60"
+                          class="w-full rounded-xl bg-cream-50 border border-ink-200 text-ink-700 text-sm font-semibold px-3 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400/40 focus:border-amber-400/60 dark:bg-ink-950 dark:border-amber-400/20 dark:text-cream"
                         >
                           <option
                             v-for="p in products"
@@ -252,21 +255,54 @@ function addToCart() {
                             {{ p.name }} — {{ p.origin }}
                           </option>
                         </select>
-                        <p class="mt-1 text-xs text-slate-500">
+                        <p class="mt-1 text-xs text-cream/45">
                           {{ formatPrice(getProductById(comp.productId)?.pricePerKg || 0) }} ج / كجم
                         </p>
                       </div>
                     </div>
 
+                    <!-- Product preview -->
+                    <div class="blend-control-surface grid gap-3 sm:grid-cols-[120px_1fr] rounded-2xl border p-3">
+                      <div
+                        class="aspect-[4/3] rounded-2xl flex items-center justify-center overflow-hidden"
+                        :style="{ background: getProductById(comp.productId)?.gradient }"
+                      >
+                        <CoffeeIllustration
+                          :variant="getProductById(comp.productId)?.image || ''"
+                          :accent="getProductById(comp.productId)?.accent"
+                        />
+                      </div>
+                      <div class="min-w-0">
+                        <div class="flex flex-wrap items-center gap-2">
+                          <span class="text-sm font-bold text-white">{{ getProductById(comp.productId)?.name }}</span>
+                          <span class="rounded-full bg-amber-400/10 border border-amber-400/20 px-2 py-0.5 text-[10px] font-semibold text-amber-300">
+                            {{ getProductById(comp.productId)?.origin }}
+                          </span>
+                        </div>
+                        <p class="mt-1 text-xs leading-relaxed text-cream/60">
+                          {{ getProductById(comp.productId)?.tagline }}
+                        </p>
+                        <div class="mt-2 flex flex-wrap gap-1.5">
+                          <span
+                            v-for="note in getProductById(comp.productId)?.notes || []"
+                            :key="note"
+                            class="rounded-full bg-ink-800 border border-ink-700 px-2 py-0.5 text-[10px] text-cream/70"
+                          >
+                            {{ note }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
                     <!-- Mode toggle -->
-                    <div class="flex rounded-full border border-slate-700 overflow-hidden text-sm bg-slate-950">
+                    <div class="blend-control-surface flex rounded-full border overflow-hidden text-sm">
                       <button
                         type="button"
                         @click="comp.mode = 'grams'"
                         class="flex-1 py-2.5 text-sm font-semibold transition"
                         :class="comp.mode === 'grams'
                           ? 'rounded-full bg-amber-400 text-ink-900'
-                          : 'text-slate-400 hover:bg-slate-800'"
+                          : 'text-cream/55 hover:bg-ink-700'"
                       >
                         بالجرام
                       </button>
@@ -276,7 +312,7 @@ function addToCart() {
                         class="flex-1 py-2.5 text-sm font-semibold transition"
                         :class="comp.mode === 'price'
                           ? 'rounded-full bg-amber-400 text-ink-900'
-                          : 'text-slate-400 hover:bg-slate-800'"
+                          : 'text-cream/55 hover:bg-ink-700'"
                       >
                         بالسعر
                       </button>
@@ -294,19 +330,19 @@ function addToCart() {
                         size="lg"
                         :ui="{ rounded: 'rounded-xl', base: 'font-semibold' }"
                       />
-                      <div class="h-full min-h-[2.75rem] flex items-center justify-center rounded-xl bg-slate-800 px-4 text-sm font-semibold text-slate-200 border border-slate-700">
+                      <div class="blend-control-surface h-full min-h-[2.75rem] flex items-center justify-center rounded-xl px-4 text-sm font-semibold border">
                         {{ comp.mode === 'grams' ? 'جم' : 'ج' }}
                       </div>
                     </div>
 
                     <!-- Price/weight display -->
                     <div class="grid grid-cols-2 gap-2">
-                      <div class="rounded-xl bg-slate-950 border border-slate-800 p-3">
-                        <div class="text-[10px] uppercase tracking-widest text-slate-500">السعر</div>
+                      <div class="blend-control-surface rounded-xl border p-3">
+                        <div class="text-[10px] uppercase tracking-widest text-cream/45">السعر</div>
                         <div class="mt-1 text-base font-bold text-white">{{ formatPrice(componentPrice(comp)) }} ج</div>
                       </div>
-                      <div class="rounded-xl bg-slate-950 border border-slate-800 p-3">
-                        <div class="text-[10px] uppercase tracking-widest text-slate-500">الوزن</div>
+                      <div class="blend-control-surface rounded-xl border p-3">
+                        <div class="text-[10px] uppercase tracking-widest text-cream/45">الوزن</div>
                         <div class="mt-1 text-base font-bold text-white">{{ componentWeightGrams(comp).toFixed(0) }} جم</div>
                       </div>
                     </div>
@@ -317,7 +353,7 @@ function addToCart() {
                         v-for="gram in [100, 250, 500, 1000]"
                         :key="gram"
                         type="button"
-                        class="rounded-full border border-slate-700 bg-slate-950 px-3 py-1.5 text-xs font-semibold text-slate-300 transition hover:bg-amber-400/10 hover:border-amber-400/60 hover:text-amber-400"
+                        class="rounded-full border border-amber-400/20 bg-ink-950 px-3 py-1.5 text-xs font-semibold text-cream/75 transition hover:bg-amber-400/10 hover:border-amber-400/60 hover:text-amber-400"
                         @click="setPresetGram(idx, gram)"
                       >
                         {{ gram }} جم
@@ -331,27 +367,27 @@ function addToCart() {
 
           <!-- Right: aside (sticky on xl) -->
           <aside class="space-y-4 xl:sticky xl:top-24 self-start">
-            <div class="rounded-3xl border border-slate-800 bg-slate-950 p-5">
+            <div class="blend-surface rounded-3xl border p-5">
               <h2 class="text-sm font-semibold text-white mb-4">ملخص الخلطة</h2>
               <div class="space-y-3">
-                <div class="rounded-2xl bg-slate-900 border border-slate-800 p-4">
-                  <div class="text-xs text-slate-500 uppercase tracking-widest">السعر الإجمالي</div>
+                <div class="blend-subsurface rounded-2xl border p-4">
+                  <div class="text-xs text-cream/45 uppercase tracking-widest">السعر الإجمالي</div>
                   <div class="mt-1.5 text-2xl font-bold text-amber-400">{{ formatPrice(totalPrice) }} ج</div>
                 </div>
-                <div class="rounded-2xl bg-slate-900 border border-slate-800 p-4">
-                  <div class="text-xs text-slate-500 uppercase tracking-widest">الوزن الإجمالي</div>
+                <div class="blend-subsurface rounded-2xl border p-4">
+                  <div class="text-xs text-cream/45 uppercase tracking-widest">الوزن الإجمالي</div>
                   <div class="mt-1.5 text-2xl font-bold text-white">{{ totalWeight.toFixed(3) }} كجم</div>
                 </div>
-                <div class="rounded-2xl bg-amber-400/5 border border-amber-400/20 p-4 text-sm text-slate-300">
+                <div class="blend-subsurface rounded-2xl border p-4 text-sm text-ink-500 dark:text-cream/75">
                   <div class="text-xs uppercase tracking-widest font-semibold mb-2 text-amber-400">نصيحة</div>
                   <p class="leading-relaxed text-xs">استخدم الأسعار للتحكم في التكلفة، أو الجرامات للحصول على وزن محدد.</p>
                 </div>
               </div>
             </div>
 
-            <div class="rounded-3xl bg-gradient-to-br from-ink-800 to-ink-900 border border-ink-700 p-5 text-white">
+            <div class="blend-surface rounded-3xl border p-5">
               <div class="text-xs uppercase tracking-widest text-amber-400 mb-3">تحقق قبل المتابعة</div>
-              <div class="space-y-2 text-sm text-slate-300">
+              <div class="space-y-2 text-sm text-cream/70">
                 <p class="leading-relaxed">أضف نوعين على الأقل لتنشيط زر المتابعة.</p>
                 <p class="leading-relaxed">يمكنك تغيير النمط بين الوزن والسعر في أي وقت.</p>
               </div>
@@ -370,7 +406,7 @@ function addToCart() {
             <span>التالي: تسمية الخلطة</span>
             <UIcon name="i-heroicons-arrow-left" class="w-4 h-4" />
           </button>
-          <p v-if="!canProceed && components.length > 0" class="text-center text-xs text-slate-400">
+          <p v-if="!canProceed && components.length > 0" class="text-center text-xs text-cream/55">
             أضف نوعاً آخر للمتابعة
           </p>
         </div>
@@ -385,7 +421,7 @@ function addToCart() {
         <div class="text-center py-4">
           <div class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-amber-400/15 text-3xl">✦</div>
           <h2 class="font-display text-2xl sm:text-3xl font-bold mt-3 mb-2">سمّ خلطتك</h2>
-          <p class="text-slate-400 text-sm max-w-md mx-auto">اختر اسمًا مميزًا أو اتركه تلقائيًا.</p>
+          <p class="text-ink-400 dark:text-cream/55 text-sm max-w-md mx-auto">اختر اسمًا مميزًا أو اتركه تلقائيًا.</p>
         </div>
 
         <div class="grid gap-5 xl:grid-cols-[1fr_300px]">
@@ -398,14 +434,14 @@ function addToCart() {
               :ui="{ rounded: 'rounded-2xl', base: 'text-lg font-semibold' }"
             />
 
-            <div class="rounded-3xl overflow-hidden bg-gradient-to-br from-ink-800 to-ink-900 p-5 text-white border border-ink-700">
+            <div class="blend-surface-strong rounded-3xl overflow-hidden p-5 border shadow-soft">
               <div class="text-xs uppercase tracking-widest text-amber-400 mb-2">عرض سريع</div>
               <div class="font-display text-2xl font-bold mb-4">{{ finalName }}</div>
               <div class="space-y-2">
                 <div
                   v-for="(c, i) in components"
                   :key="i"
-                  class="rounded-xl border border-white/10 bg-white/5 p-3"
+                  class="blend-subsurface rounded-xl border p-3"
                 >
                   <div class="flex items-center justify-between gap-3">
                     <div>
@@ -413,18 +449,18 @@ function addToCart() {
                       <div class="text-[11px] text-amber-300 mt-0.5">{{ getProductById(c.productId)?.origin }}</div>
                     </div>
                     <div class="text-right">
-                      <div class="text-[10px] uppercase tracking-widest text-slate-400">{{ c.mode === 'grams' ? 'جرام' : 'جنيه' }}</div>
+                      <div class="text-[10px] uppercase tracking-widest text-ink-400 dark:text-cream/55">{{ c.mode === 'grams' ? 'جرام' : 'جنيه' }}</div>
                       <div class="text-sm font-bold">{{ c.amount }} {{ c.mode === 'grams' ? 'جم' : 'ج' }}</div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="mt-4 rounded-xl bg-black/20 p-3 border border-white/10">
-                <div class="flex justify-between text-sm text-slate-300">
+              <div class="blend-subsurface mt-4 rounded-xl p-3 border">
+                <div class="flex justify-between text-sm text-ink-500 dark:text-cream/75">
                   <span>عدد الأنواع</span>
                   <span>{{ components.length }}</span>
                 </div>
-                <div class="flex justify-between text-sm text-slate-300 mt-1.5">
+                <div class="flex justify-between text-sm text-ink-500 dark:text-cream/75 mt-1.5">
                   <span>السعر المتوقع</span>
                   <span class="font-bold text-amber-400">{{ formatPrice(totalPrice) }} ج</span>
                 </div>
@@ -432,17 +468,17 @@ function addToCart() {
             </div>
           </div>
 
-          <aside class="rounded-3xl border border-slate-800 bg-slate-950 p-5 xl:sticky xl:top-24 self-start">
+          <aside class="blend-surface rounded-3xl border p-5 shadow-soft xl:sticky xl:top-24 self-start">
             <div class="flex items-center justify-between gap-3 mb-4">
               <div>
-                <div class="text-xs uppercase tracking-widest text-slate-500">ملخص سريع</div>
-                <div class="text-xl font-bold text-white">{{ formatPrice(totalPrice) }} ج</div>
+                <div class="text-xs uppercase tracking-widest text-ink-400 dark:text-cream/45">ملخص سريع</div>
+                <div class="text-xl font-bold text-ink-700 dark:text-white">{{ formatPrice(totalPrice) }} ج</div>
               </div>
               <span class="rounded-xl bg-amber-400/10 border border-amber-400/20 px-3 py-1.5 text-xs font-semibold text-amber-400">
                 {{ totalWeight.toFixed(3) }} كجم
               </span>
             </div>
-            <div class="space-y-2 text-sm text-slate-400">
+            <div class="space-y-2 text-sm text-ink-500 dark:text-cream/60">
               <p>يمكنك العودة لتعديل الكمية أو الاسم.</p>
               <p>السعر يتحدث فورياً بناءً على مدخلاتك.</p>
             </div>
@@ -451,7 +487,7 @@ function addToCart() {
 
         <div class="grid grid-cols-2 gap-3">
           <button
-            class="flex items-center justify-center gap-2 rounded-2xl px-4 py-3 font-semibold text-sm border border-slate-700 text-slate-300 hover:bg-slate-800 transition"
+            class="flex items-center justify-center gap-2 rounded-2xl px-4 py-3 font-semibold text-sm border border-ink-200 text-ink-500 hover:bg-ink-100 transition dark:border-amber-400/20 dark:text-cream/75 dark:hover:bg-ink-800"
             @click="prevStep"
           >
             <UIcon name="i-heroicons-arrow-right" class="w-4 h-4" />
@@ -476,23 +512,23 @@ function addToCart() {
         <div class="text-center py-4">
           <div class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-ink-800 text-2xl text-white shadow-lg">🎉</div>
           <h2 class="font-display text-2xl sm:text-3xl font-bold mt-3 mb-2">خلطتك جاهزة!</h2>
-          <p class="text-slate-400 text-sm max-w-md mx-auto">راجع المكونات النهائية وأضفها للسلة.</p>
+          <p class="text-cream/55 text-sm max-w-md mx-auto">راجع المكونات النهائية وأضفها للسلة.</p>
         </div>
 
         <div class="grid gap-5 xl:grid-cols-[1fr_300px]">
           <div class="space-y-4">
 
             <!-- Summary card -->
-            <div class="rounded-3xl border border-slate-700 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden shadow-soft">
-              <div class="bg-gradient-to-r from-ink-800 to-ink-900 px-5 py-4 text-white">
+            <div class="blend-surface rounded-3xl border overflow-hidden shadow-soft">
+              <div class="blend-surface-strong px-5 py-4 border-b">
                 <div class="text-xs uppercase tracking-widest text-amber-400">ملخص الخلطة</div>
                 <div class="mt-2 text-2xl font-bold">{{ finalName }}</div>
               </div>
-              <div class="divide-y divide-slate-100 dark:divide-slate-800">
+              <div class="divide-y divide-amber-400/10">
                 <div
                   v-for="(c, i) in components"
                   :key="i"
-                  class="flex items-center gap-3 p-4 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition"
+                  class="flex items-center gap-3 p-4 hover:bg-ink-100 dark:hover:bg-ink-800/70 transition"
                 >
                   <div
                     class="w-10 h-10 rounded-xl shrink-0 flex items-center justify-center"
@@ -504,8 +540,8 @@ function addToCart() {
                     />
                   </div>
                   <div class="flex-1 min-w-0">
-                    <div class="font-semibold text-sm text-slate-900 dark:text-white">{{ getProductById(c.productId)?.name }}</div>
-                    <div class="text-xs text-slate-500">{{ getProductById(c.productId)?.origin }} · {{ componentWeightKg(c).toFixed(3) }} كجم</div>
+                    <div class="font-semibold text-sm text-white">{{ getProductById(c.productId)?.name }}</div>
+                    <div class="text-xs text-cream/50">{{ getProductById(c.productId)?.origin }} · {{ componentWeightKg(c).toFixed(3) }} كجم</div>
                   </div>
                   <div class="text-sm font-bold text-amber-600 dark:text-amber-400">
                     {{ formatPrice(componentPrice(c)) }} ج
@@ -515,37 +551,37 @@ function addToCart() {
             </div>
 
             <!-- Totals -->
-            <div class="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-4 shadow-soft">
+            <div class="blend-surface rounded-3xl border p-4 shadow-soft">
               <div class="grid grid-cols-2 gap-3">
-                <div class="rounded-2xl bg-slate-50 dark:bg-slate-900 p-3 border border-slate-100 dark:border-slate-800">
-                  <div class="text-xs text-slate-500">السعر الإجمالي</div>
+                <div class="blend-subsurface rounded-2xl p-3 border">
+                  <div class="text-xs text-cream/50">السعر الإجمالي</div>
                   <div class="mt-1 text-xl font-bold text-amber-600 dark:text-amber-400">{{ formatPrice(totalPrice) }} ج</div>
                 </div>
-                <div class="rounded-2xl bg-slate-50 dark:bg-slate-900 p-3 border border-slate-100 dark:border-slate-800">
-                  <div class="text-xs text-slate-500">الوزن الإجمالي</div>
-                  <div class="mt-1 text-xl font-bold text-slate-900 dark:text-white">{{ totalWeight.toFixed(3) }} كجم</div>
+                <div class="blend-subsurface rounded-2xl p-3 border">
+                  <div class="text-xs text-cream/50">الوزن الإجمالي</div>
+                  <div class="mt-1 text-xl font-bold text-white">{{ totalWeight.toFixed(3) }} كجم</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="rounded-3xl border border-slate-800 bg-gradient-to-br from-ink-900 to-ink-800 p-5 text-white xl:sticky xl:top-24 self-start">
-            <div class="text-xs uppercase tracking-widest text-slate-400 mb-3">ملاحظات سريعة</div>
-            <div class="space-y-3 text-sm text-slate-300 leading-relaxed">
+          <div class="blend-surface rounded-3xl border p-5 xl:sticky xl:top-24 self-start">
+            <div class="text-xs uppercase tracking-widest text-cream/55 mb-3">ملاحظات سريعة</div>
+            <div class="space-y-3 text-sm text-cream/75 leading-relaxed">
               <p>يمكنك تعديل خلطة القهوة في أي وقت.</p>
               <p>السعر المعروض هو مجموع المكونات.</p>
               <p>احفظ الاسم لتتذكر تركيبة الخلطة.</p>
             </div>
-            <div class="mt-5 rounded-2xl bg-white/5 border border-white/10 p-4 text-center text-sm text-white/80">
+            <div class="blend-subsurface mt-5 rounded-2xl border p-4 text-center text-sm text-ink-500 dark:text-white/80">
               <div class="font-semibold text-amber-400">ممتاز! الخلطة جاهزة للتسوق.</div>
-              <div class="mt-1 text-slate-400 text-xs">اضغط إضافة للسلة لإنهاء تجربة الخلط.</div>
+              <div class="mt-1 text-cream/55 text-xs">اضغط إضافة للسلة لإنهاء تجربة الخلط.</div>
             </div>
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <button
-            class="flex items-center justify-center gap-2 rounded-2xl px-4 py-3 font-semibold text-sm border border-slate-700 text-slate-300 hover:bg-slate-800 transition"
+            class="flex items-center justify-center gap-2 rounded-2xl px-4 py-3 font-semibold text-sm border border-ink-200 text-ink-500 hover:bg-ink-100 transition dark:border-amber-400/20 dark:text-cream/75 dark:hover:bg-ink-800"
             @click="prevStep"
           >
             <UIcon name="i-heroicons-pencil" class="w-4 h-4" />

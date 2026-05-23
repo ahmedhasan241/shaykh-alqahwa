@@ -1,7 +1,7 @@
 <!-- components/CartSheet.vue -->
 <script setup lang="ts">
 import { useToast } from '~/composables/useToast'
-import { useCartStore } from '~/stores/cart'
+import { SHIPPING_AREAS, useCartStore } from '~/stores/cart'
 import { useCheckout } from '~/composables/useCheckout'
 import { useFormat } from '~/composables/useFormat'
 
@@ -17,7 +17,11 @@ watch(() => cart.isOpen, (v) => {
 
 const handleCheckout = () => {
   if (cart.items.length === 0) return
-  checkout.send(cart.items, cart.customer, cart.total)
+  if (!cart.customer.name || !cart.customer.phone) {
+    toast.add({ title: 'بيانات ناقصة', description: 'يرجى إدخال الاسم ورقم الهاتف لإتمام الطلب.', icon: 'i-heroicons-exclamation-circle', color: 'red' })
+    return
+  }
+  checkout.send(cart.items, cart.customer, cart.total, cart.shippingFee)
   toast.add({ title: 'تم فتح واتساب لإتمام الطلب 📲', icon: 'i-heroicons-check-circle', color: 'primary' })
 }
 
@@ -113,17 +117,22 @@ const goToCart = () => {
             <div
               v-for="item in cart.items"
               :key="item.id"
-              class="flex gap-3 p-3 bg-white dark:bg-ink-800 rounded-2xl border border-ink-100 dark:border-ink-700"
+              class="flex gap-3 p-3 bg-cream-50 dark:bg-ink-800 rounded-2xl border border-ink-200 dark:border-ink-700"
             >
               <!-- Thumbnail -->
               <div
                 class="w-[72px] h-[72px] rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden"
-                :style="{ background: item.gradient }"
+                :style="{ background: item.type === 'blend' ? item.components?.[0]?.gradient || item.gradient : item.gradient }"
               >
                 <CoffeeIllustration
                   v-if="item.type === 'single' && item.image"
                   :variant="item.image"
                   :accent="item.accent"
+                />
+                <CoffeeIllustration
+                  v-else-if="item.type === 'blend' && item.components?.[0]?.image"
+                  :variant="item.components?.[0]?.image || ''"
+                  :accent="item.components?.[0]?.accent"
                 />
                 <span v-else class="text-2xl">✦</span>
               </div>
@@ -173,7 +182,25 @@ const goToCart = () => {
                       @click="cart.adjustWeight(item.id, 0.125)"
                     />
                   </div>
-                  <div v-else class="text-[10px] text-ink-400 dark:text-cream/55">{{ item.weight.toFixed(3) }} كجم</div>
+                  <div v-else class="flex items-center gap-1 bg-ink-50 dark:bg-ink-900 rounded-xl p-0.5 border border-ink-200 dark:border-ink-700">
+                    <UButton
+                      icon="i-heroicons-minus"
+                      color="gray"
+                      variant="ghost"
+                      size="2xs"
+                      class="rounded-lg w-7 h-7"
+                      @click="cart.adjustQuantity(item.id, -1)"
+                    />
+                    <span class="text-xs font-bold w-12 text-center tabular-nums">×{{ item.quantity || 1 }}</span>
+                    <UButton
+                      icon="i-heroicons-plus"
+                      color="gray"
+                      variant="ghost"
+                      size="2xs"
+                      class="rounded-lg w-7 h-7"
+                      @click="cart.adjustQuantity(item.id, 1)"
+                    />
+                  </div>
 
                   <span class="font-bold text-base text-amber-600 dark:text-amber-300">{{ formatPrice(item.price) }} ج</span>
                 </div>
@@ -210,13 +237,17 @@ const goToCart = () => {
             :ui="{ rounded: 'rounded-xl' }"
           />
 
+
+
           <!-- Total row -->
-          <div class="flex items-center justify-between py-1">
+          <div class="space-y-1 py-1">
+          <div class="flex items-center justify-between">
             <span class="text-ink-500 dark:text-cream/60 text-sm">الإجمالي</span>
             <div class="text-right">
-              <div class="font-bold text-2xl text-amber-600 dark:text-amber-300 leading-none">{{ formatPrice(cart.total) }} ج</div>
+              <div class="font-bold text-2xl text-amber-600 dark:text-amber-300 leading-none">{{ formatPrice(cart.grandTotal) }} ج</div>
               <div class="text-[10px] text-ink-400 dark:text-cream/55">{{ cart.totalWeight.toFixed(3) }} كجم إجمالي</div>
             </div>
+          </div>
           </div>
 
           <!-- WhatsApp checkout -->
@@ -241,7 +272,7 @@ const goToCart = () => {
               variant="soft"
               color="gray"
               size="sm"
-              class="flex-1 rounded-xl bg-white dark:bg-cream text-ink-500 hover:bg-ink-100 dark:hover:bg-cream-200"
+              class="flex-1 rounded-xl bg-cream-50 dark:bg-cream text-ink-500 hover:bg-ink-100 dark:hover:bg-cream-200"
               icon="i-heroicons-shopping-cart"
               @click="goToCart"
             />

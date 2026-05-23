@@ -47,7 +47,7 @@ const addToCart = () => {
   cart.add({
     type: 'blend',
     name: blendName.value || `خلطة مخصصة (${comps.length} أنواع)`,
-    gradient: 'linear-gradient(135deg, #E5A84C, #5C4126)',
+    gradient: 'linear-gradient(135deg, #A99768, #514B3B)',
     weight: totalWeight.value,
     price: totalPrice.value,
     components: comps,

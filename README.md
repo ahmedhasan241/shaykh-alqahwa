@@ -9,7 +9,7 @@ A premium, fully RTL Arabic coffee shop e-commerce built with **Nuxt 4**, **Vue 
 - 📱 **Native mobile app feel** — bottom tab nav, slide-up sheets, app-style header
 - 🖥️ Premium **desktop experience**
 - 🛒 **Persistent cart** via Pinia + localStorage
-- 📲 **WhatsApp checkout** — opens `wa.me/+201004513892` with a beautifully formatted Arabic receipt
+- 📲 **WhatsApp checkout** — opens `wa.me/+201102057503` with a beautifully formatted Arabic receipt
 - ⚖️ **Weight + Budget selectors** — pick ⅛, ¼, ½, 1 kg OR enter EGP budget → app calculates weight
 - ✦ **"Make Your Blend"** builder — combine multiple coffees with individual weights, name your creation, add to cart as one item
 - 🔍 Search, sort, and filter products
@@ -86,7 +86,7 @@ Typography:
 The order is sent as a beautifully formatted Arabic message to `+20 100 451 3892`. Edit the number in `app/composables/useCheckout.ts`:
 
 ```ts
-const WHATSAPP_NUMBER = '201004513892'
+const WHATSAPP_NUMBER = '201102057503'
 ```
 
 ## 🛒 Cart Persistence

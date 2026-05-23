@@ -1,7 +1,7 @@
 // composables/useCheckout.ts
 import type { CartItem, Customer } from '~/stores/cart'
 
-const WHATSAPP_NUMBER = '201004513892' // +20 100 451 3892
+const WHATSAPP_NUMBER = '201102057503' // +20 110 205 7503
 
 export const useCheckout = () => {
   const fmt = (n: number) => Math.round(n).toLocaleString('ar-EG')
@@ -46,6 +46,9 @@ export const useCheckout = () => {
       m += '✦ *الخلطات الخاصة:*\n\n'
       blends.forEach((b, i) => {
         m += `*${i + 1}.* ${b.name}\n`
+        if ((b.quantity || 1) > 1) {
+          m += `   × الكمية: ${b.quantity}\n`
+        }
         m += '   📋 المكونات:\n'
         b.components?.forEach(c => {
           m += `      ◦ ${c.name} — ${fmtKg(c.weight)} كجم\n`
@@ -57,8 +60,7 @@ export const useCheckout = () => {
 
     m += '━━━━━━━━━━━━━━━━━━━━\n'
     m += `🛒 *إجمالي المنتجات: ${fmt(total)} ج.م*\n`
-    m += `🚚 *رسوم الشحن والتوصيل: ${fmt(shippingFee)} ج.م*\n`
-    m += `✅ *الإجمالي الكلي (شامل الشحن): ${fmt(total + shippingFee)} ج.م*\n`
+    m += `✅ *الإجمالي الكلي: ${fmt(total)} ج.م + مصاريف الشحن*\n`
     m += '━━━━━━━━━━━━━━━━━━━━\n\n'
 
     if (customer.notes) m += `📝 *ملاحظات:* ${customer.notes}\n\n`

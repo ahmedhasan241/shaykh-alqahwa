@@ -1,6 +1,6 @@
 <!-- pages/cart.vue -->
 <script setup lang="ts">
-import { useCartStore } from '~/stores/cart'
+import { SHIPPING_AREAS, useCartStore } from '~/stores/cart'
 import { useCheckout } from '~/composables/useCheckout'
 import { useFormat } from '~/composables/useFormat'
 import { useToast } from '~/composables/useToast'
@@ -82,7 +82,7 @@ const handleCheckout = () => {
       <div class="lg:col-span-7 xl:col-span-8 space-y-3">
 
         <!-- Items Card -->
-        <div class="bg-white dark:bg-ink-800 rounded-3xl border border-ink-100 dark:border-ink-700 overflow-hidden shadow-soft">
+        <div class="bg-cream-50 dark:bg-ink-800 rounded-3xl border border-ink-200 dark:border-ink-700 overflow-hidden shadow-soft">
           <div class="px-5 py-4 border-b border-ink-100 dark:border-ink-700 flex justify-between items-center bg-ink-50/50 dark:bg-ink-900/50">
             <h3 class="font-bold text-base">المنتجات المختارة
               <span class="text-ink-400 dark:text-slate-400 font-normal text-sm mr-1">({{ cart.count }})</span>
@@ -116,12 +116,17 @@ const handleCheckout = () => {
                 <div class="flex gap-3 items-center flex-1 min-w-0">
                   <div
                     class="w-14 h-14 rounded-2xl shrink-0 flex items-center justify-center overflow-hidden border border-ink-100 dark:border-ink-700"
-                    :style="{ background: item.gradient }"
+                    :style="{ background: item.type === 'blend' ? item.components?.[0]?.gradient || item.gradient : item.gradient }"
                   >
                     <CoffeeIllustration
                       v-if="item.type === 'single' && item.image"
                       :variant="item.image"
                       :accent="item.accent"
+                    />
+                    <CoffeeIllustration
+                      v-else-if="item.type === 'blend' && item.components?.[0]?.image"
+                      :variant="item.components?.[0]?.image || ''"
+                      :accent="item.components?.[0]?.accent"
                     />
                     <span v-else class="text-2xl">✦</span>
                   </div>
@@ -131,6 +136,9 @@ const handleCheckout = () => {
                       v-if="item.type === 'blend' && item.components"
                       class="mt-1 flex flex-wrap gap-1"
                     >
+                      <span class="inline-flex items-center text-[10px] bg-ink-100 dark:bg-ink-900 text-ink-500 dark:text-cream/70 px-2 py-0.5 rounded-full border border-ink-200 dark:border-ink-700">
+                        ×{{ item.quantity || 1 }}
+                      </span>
                       <span
                         v-for="(c, i) in item.components"
                         :key="i"
@@ -163,8 +171,20 @@ const handleCheckout = () => {
                       <UIcon name="i-heroicons-plus" class="w-4 h-4" />
                     </button>
                   </div>
-                  <div v-else class="text-xs text-ink-500 dark:text-slate-400 bg-ink-50 dark:bg-ink-900 px-3 py-2 rounded-2xl border border-ink-200 dark:border-ink-700">
-                    {{ item.weight.toFixed(3) }} كجم
+                  <div v-else class="flex items-center gap-1 bg-ink-50 dark:bg-ink-900 rounded-2xl p-1 border border-ink-200 dark:border-ink-700">
+                    <button
+                      class="w-8 h-8 rounded-xl flex items-center justify-center text-ink-500 hover:bg-ink-100 dark:hover:bg-ink-700 transition"
+                      @click="cart.adjustQuantity(item.id, -1)"
+                    >
+                      <UIcon name="i-heroicons-minus" class="w-4 h-4" />
+                    </button>
+                    <span class="text-sm font-bold w-16 text-center tabular-nums">×{{ item.quantity || 1 }}</span>
+                    <button
+                      class="w-8 h-8 rounded-xl flex items-center justify-center text-ink-500 hover:bg-ink-100 dark:hover:bg-ink-700 transition"
+                      @click="cart.adjustQuantity(item.id, 1)"
+                    >
+                      <UIcon name="i-heroicons-plus" class="w-4 h-4" />
+                    </button>
                   </div>
 
                   <!-- Price + Delete -->
@@ -191,7 +211,7 @@ const handleCheckout = () => {
       <div class="lg:col-span-5 xl:col-span-4 lg:sticky lg:top-24 space-y-4">
 
         <!-- Customer info -->
-        <div class="bg-white dark:bg-ink-800 rounded-3xl border border-ink-100 dark:border-ink-700 p-5 shadow-soft space-y-4">
+        <div class="bg-cream-50 dark:bg-ink-800 rounded-3xl border border-ink-200 dark:border-ink-700 p-5 shadow-soft space-y-4">
           <h3 class="font-bold text-base pb-3 border-b border-ink-100 dark:border-ink-700">بيانات التوصيل</h3>
           <div class="space-y-3">
             <div>
@@ -239,7 +259,7 @@ const handleCheckout = () => {
         </div>
 
         <!-- Order summary -->
-        <div class="bg-white dark:bg-ink-800 rounded-3xl border border-ink-100 dark:border-ink-700 p-5 shadow-soft space-y-4">
+        <div class="bg-cream-50 dark:bg-ink-800 rounded-3xl border border-ink-200 dark:border-ink-700 p-5 shadow-soft space-y-4">
           <h3 class="font-bold text-base pb-3 border-b border-ink-100 dark:border-ink-700">ملخص الحساب</h3>
 
           <div class="space-y-2.5 text-sm">
@@ -255,10 +275,7 @@ const handleCheckout = () => {
               <span>إجمالي المنتجات</span>
               <span class="font-semibold text-ink-700 dark:text-white">{{ formatPrice(cart.total) }} ج</span>
             </div>
-            <div class="flex justify-between text-ink-500 dark:text-slate-400">
-              <span>رسوم الشحن والتوصيل</span>
-              <span class="font-semibold text-ink-700 dark:text-white">{{ formatPrice(cart.shippingFee) }} ج</span>
-            </div>
+
             <div class="pt-3 border-t border-dashed border-ink-200 dark:border-ink-700 flex justify-between items-end">
               <span class="font-bold text-base">الإجمالي الكلي</span>
               <div class="text-left">

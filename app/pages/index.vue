@@ -67,23 +67,8 @@ const quickAdd = (p: Product) => {
       </div>
     </section>
 
-    <!-- CATEGORY CHIPS -->
-    <div class="mt-8 flex gap-2 overflow-x-auto no-scrollbar pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
-      <button
-        v-for="cat in categories"
-        :key="cat"
-        @click="selectedCategory = cat"
-        class="flex-shrink-0 px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition"
-        :class="selectedCategory === cat
-          ? 'coffee-action'
-          : 'bg-ink-100 dark:bg-ink-800 hover:bg-ink-200 dark:hover:bg-ink-700'"
-      >
-        {{ cat }}
-      </button>
-    </div>
-
     <!-- FEATURED BANNERS -->
-    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
       <div class="md:col-span-2 relative rounded-3xl overflow-hidden bg-gradient-to-br from-amber-400 to-ink-500 p-6 sm:p-8 text-ink-900 grain">
         <div class="relative">
           <div class="text-[10px] font-bold uppercase tracking-[0.3em] mb-2">العرض الأسبوعي</div>
@@ -102,8 +87,23 @@ const quickAdd = (p: Product) => {
       </NuxtLink>
     </div>
 
+    <!-- CATEGORY CHIPS -->
+    <div class="mt-8 flex gap-2 overflow-x-auto no-scrollbar pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+      <button
+        v-for="cat in categories"
+        :key="cat"
+        @click="selectedCategory = cat"
+        class="flex-shrink-0 px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition"
+        :class="selectedCategory === cat
+          ? 'coffee-action'
+          : 'bg-ink-100 dark:bg-ink-800 hover:bg-ink-200 dark:hover:bg-ink-700'"
+      >
+        {{ cat }}
+      </button>
+    </div>
+
     <!-- PRODUCTS -->
-    <section class="mt-12">
+    <section class="mt-10">
       <div class="flex items-end justify-between mb-6">
         <div>
           <h2 class="font-display text-2xl sm:text-3xl font-bold">قائمة القهوة</h2>
